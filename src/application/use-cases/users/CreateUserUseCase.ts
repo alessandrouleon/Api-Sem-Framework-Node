@@ -7,15 +7,22 @@ export class CreateUserUseCase {
 
     async execute(data: UserEntity): Promise<UserEntity> {
 
-        const userExists = await this.userRepository.findByEmail(data.email);
+        const [username, email] = await Promise.all([
+            this.userRepository.findByUsername(data.username),
+            this.userRepository.findByEmail(data.email)
+        ]);
 
-        if (userExists) {
+        if (username) {
+            throw new AppError('Nome de usuário já cadastrado', 400);
+        }
+
+        if (email) {
             throw new AppError('Email já cadastrado', 400);
         }
 
-        const user = UserEntity.create(data);
+        const user = UserEntity.createUser(data);
 
-        return await this.userRepository.save(user);
+        return await this.userRepository.create(user);
 
     }
 }

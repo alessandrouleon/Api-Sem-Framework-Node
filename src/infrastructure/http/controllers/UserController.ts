@@ -11,7 +11,6 @@ export class UserController {
     async createUser(req: IncomingMessage, res: ServerResponse): Promise<void> {
         try {
             const data = await parseRequestBody(req);
-
             const result = await this.createUserUseCase.execute(data);
 
             sendJsonResponse(res, 201, { users: result });

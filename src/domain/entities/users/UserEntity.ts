@@ -21,10 +21,16 @@ export class UserEntity {
         this.deletedAt = props.deletedAt;
     }
 
-    static create(props: Omit<UserEntity, 'id'>): UserEntity {
+    static createUser(props: Omit<UserEntity, 'id'>): UserEntity {
         return new UserEntity({
             ...props,
             id: randomUUID()
         });
     }
+
+
+    static listUsers(users: UserEntity): UserEntity {
+        return users
+    }
+
 }
