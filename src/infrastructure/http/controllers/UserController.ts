@@ -1,17 +1,20 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { CreateUserUseCase } from '../../../application/use-cases/users/CreateUserUseCase';
-//import { UpdateUserUseCase } from '../../application/useCases/UpdateUserUseCase';
+import { CreateUserUseCase } from '../../../application/useCases/users/CreateUserUseCase';
 //import { DeleteUserUseCase } from '../../application/useCases/DeleteUserUseCase';
 //import { GetUserUseCase } from '../../application/useCases/GetUserUseCase';
+import { UpdateUserUseCase } from '../../../application/useCases/users/UpdateUserUseCase';
 import { parseRequestBody, sendJsonResponse } from '../../../utils/httpHelpers';
 
 export class UserController {
-    constructor(private createUserUseCase: CreateUserUseCase) { }
+    constructor(
+        private createUserUseCase: CreateUserUseCase,
+        private updateUserUseCase: UpdateUserUseCase
+    ) { }
 
-    async createUser(req: IncomingMessage, res: ServerResponse): Promise<void> {
+    public async createUser(req: IncomingMessage, res: ServerResponse): Promise<void> {
         try {
-            const data = await parseRequestBody(req);
-            const result = await this.createUserUseCase.execute(data);
+            const users = await parseRequestBody(req);
+            const result = await this.createUserUseCase.execute(users);
 
             sendJsonResponse(res, 201, { users: result });
         } catch (error: any) {
@@ -19,15 +22,17 @@ export class UserController {
         }
     }
 
-    // async updateUser(req: IncomingMessage, res: ServerResponse): Promise<void> {
-    //     try {
-    //         const data = await parseRequestBody(req);
-    //         await this.updateUserUseCase.execute(data);
-    //         sendJsonResponse(res, 200, { message: 'User updated successfully' });
-    //     } catch (error) {
-    //         sendJsonResponse(res, 400, { error: error.message });
-    //     }
-    // }
+
+    public async updateUser(req: IncomingMessage, res: ServerResponse, userId: string): Promise<void> {
+        try {
+            const users = await parseRequestBody(req);
+
+            const result = await this.updateUserUseCase.execute(userId, users);
+            sendJsonResponse(res, 200, { message: result });
+        } catch (error: any) {
+            sendJsonResponse(res, 400, { error: error.message });
+        }
+    }
 
     // async deleteUser(req: IncomingMessage, res: ServerResponse): Promise<void> {
     //     try {

@@ -1,15 +1,12 @@
-import { randomUUID } from "crypto";
-
+import { randomUUID } from 'crypto';
 export class UserEntity {
     id: string;
     name: string;
     username: string;
     email: string;
     password: string;
-    updatedAt: Date;
-    deletedAt: Date;
-
-
+    updated_at: Date;
+    deleted_at: Date;
 
     private constructor(props: UserEntity) {
         this.id = props.id;
@@ -17,8 +14,8 @@ export class UserEntity {
         this.username = props.username;
         this.email = props.email;
         this.password = props.password;
-        this.updatedAt = props.updatedAt;
-        this.deletedAt = props.deletedAt;
+        this.updated_at = props.updated_at;
+        this.deleted_at = props.deleted_at;
     }
 
     static createUser(props: Omit<UserEntity, 'id'>): UserEntity {
@@ -28,9 +25,11 @@ export class UserEntity {
         });
     }
 
+    // static updateUser(props: Omit<UserEntity, 'id' | 'updated_at'>, id?: string, updated_at?: Date) {
+    //     Object.assign(this, props);
+    //     updated_at = new Date();
+    // }
 
-    static listUsers(users: UserEntity): UserEntity {
-        return users
-    }
+
 
 }
