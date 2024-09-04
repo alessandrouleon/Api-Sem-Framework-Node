@@ -5,8 +5,8 @@ export class UserEntity {
     username: string;
     email: string;
     password: string;
-    updated_at: Date;
-    deleted_at: Date;
+    updated_at: Date | null;
+    deleted_at: Date | null;
 
     private constructor(props: UserEntity) {
         this.id = props.id;
@@ -18,10 +18,12 @@ export class UserEntity {
         this.deleted_at = props.deleted_at;
     }
 
-    static createUser(props: Omit<UserEntity, 'id'>): UserEntity {
+    static createUser(props: Omit<UserEntity, 'id' | 'updated_at' | 'deleted_at'>): UserEntity {
         return new UserEntity({
             ...props,
-            id: randomUUID()
+            id: randomUUID(),
+            updated_at: null,
+            deleted_at: null,
         });
     }
 
