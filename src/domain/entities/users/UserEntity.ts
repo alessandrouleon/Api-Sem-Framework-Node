@@ -27,4 +27,12 @@ export class UserEntity {
             deleted_at: null,
         });
     }
+
+    static updateUser(props: Omit<UserEntity, 'updated_at' | 'deleted_at'>): UserEntity {
+        return new UserEntity({
+            ...props,
+            updated_at: new Date(),
+            deleted_at: null,
+        });
+    }
 }
