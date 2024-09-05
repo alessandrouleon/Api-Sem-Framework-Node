@@ -11,7 +11,7 @@ import { UserController } from '../controllers/UserController';
 const userRepository = new UserRepository();
 const encryptionService = new BcryptEncryptionService();
 const createUserUseCase = new CreateUserUseCase(userRepository, encryptionService);
-const updateUserUseCase = new UpdateUserUseCase(userRepository);
+const updateUserUseCase = new UpdateUserUseCase(userRepository, encryptionService);
 const deleteUserUseCase = new DeleteUserUseCase(userRepository)
 const getUserUseCase = new GetUserUseCase(userRepository)
 const userController = new UserController(createUserUseCase, updateUserUseCase, deleteUserUseCase, getUserUseCase);

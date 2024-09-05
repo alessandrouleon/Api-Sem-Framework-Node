@@ -1,7 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { CreateUserUseCase } from '../../../application/useCases/users/CreateUserUseCase';
-//import { DeleteUserUseCase } from '../../application/useCases/DeleteUserUseCase';
-//import { GetUserUseCase } from '../../application/useCases/GetUserUseCase';
 import { DeleteUserUseCase } from '../../../application/useCases/users/DeleteUserUseCase';
 import { GetUserUseCase } from '../../../application/useCases/users/GetUserUseCase';
 import { UpdateUserUseCase } from '../../../application/useCases/users/UpdateUserUseCase';
@@ -30,7 +28,6 @@ export class UserController {
     public async updateUser(req: IncomingMessage, res: ServerResponse, userId: string): Promise<void> {
         try {
             const users = await parseRequestBody(req);
-
             const result = await this.updateUserUseCase.execute(userId, users);
             sendJsonResponse(res, 200, { users: result });
         } catch (error: any) {
