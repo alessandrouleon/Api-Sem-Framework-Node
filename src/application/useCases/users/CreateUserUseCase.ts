@@ -27,7 +27,7 @@ export class CreateUserUseCase {
             throw new AppError('Email já cadastrado', 400);
         }
 
-        // Cria os Instanci e Email e Password Value Objects
+        // Instância das entidades que validam o formato do email e a força da senha
         const userEmail = new Email(data.email);
         const userPassword = new Password(data.password);
 
@@ -38,7 +38,7 @@ export class CreateUserUseCase {
             password: userPassword.getValue()
         });
 
-        //Criptografar senha
+        // Criptografar a senha do usuário antes de salvar no banco de dados
         const hashPassword = await this.encryptionService.hashPassword(user.password)
 
         return await this.userRepository.create({ ...user, password: hashPassword });
