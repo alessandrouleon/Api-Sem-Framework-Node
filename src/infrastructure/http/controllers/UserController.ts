@@ -2,13 +2,15 @@ import { IncomingMessage, ServerResponse } from 'http';
 import { CreateUserUseCase } from '../../../application/useCases/users/CreateUserUseCase';
 //import { DeleteUserUseCase } from '../../application/useCases/DeleteUserUseCase';
 //import { GetUserUseCase } from '../../application/useCases/GetUserUseCase';
+import { GetUserUseCase } from '../../../application/useCases/users/GetUserUseCase';
 import { UpdateUserUseCase } from '../../../application/useCases/users/UpdateUserUseCase';
 import { parseRequestBody, sendJsonResponse } from '../../../utils/httpHelpers';
 
 export class UserController {
     constructor(
-        private createUserUseCase: CreateUserUseCase,
-        private updateUserUseCase: UpdateUserUseCase
+        private readonly createUserUseCase: CreateUserUseCase,
+        private readonly updateUserUseCase: UpdateUserUseCase,
+        private readonly getUserUseCase: GetUserUseCase
     ) { }
 
     public async createUser(req: IncomingMessage, res: ServerResponse): Promise<void> {
@@ -28,9 +30,18 @@ export class UserController {
             const users = await parseRequestBody(req);
 
             const result = await this.updateUserUseCase.execute(userId, users);
-            sendJsonResponse(res, 200, { message: result });
+            sendJsonResponse(res, 200, { users: result });
         } catch (error: any) {
             sendJsonResponse(res, 400, { error: error.message });
+        }
+    }
+
+    public async getUser(req: IncomingMessage, res: ServerResponse): Promise<void> {
+        try {
+            const user = await this.getUserUseCase.execute();
+            sendJsonResponse(res, 200, { user: user });
+        } catch (error: any) {
+            sendJsonResponse(res, 404, { error: error.message });
         }
     }
 

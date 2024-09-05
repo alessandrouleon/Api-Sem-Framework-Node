@@ -29,14 +29,19 @@ export class UserRepository implements IUserRepository {
         return result || null;
     }
 
-    async findByUsername(username: string): Promise<UserEntity | null> {
+    public async findByUsername(username: string): Promise<UserEntity | null> {
         const result = (await this.db.query(UserQueries.GET_USER_USERNAME, [username])).rows[0];
         return result || null;
     }
 
-    async findByEmail(email: string): Promise<UserEntity | null> {
+    public async findByEmail(email: string): Promise<UserEntity | null> {
         const result = (await this.db.query(UserQueries.GET_USER_EMAIL, [email])).rows[0];
         return result || null;
+    }
+
+    public async findAll(): Promise<UserEntity[] | null> {
+        const result = (await this.db.query(UserQueries.GET_USER_ALL)).rows;
+        return result;
     }
 
 }

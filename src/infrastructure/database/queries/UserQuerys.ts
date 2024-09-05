@@ -32,13 +32,9 @@ export const UserQueries = {
         WHERE id = $1 
         RETURNING id
     `,
-    // GET_USER_BY_ID: `
-    //     SELECT id, name, username, email, password 
-    //     FROM users 
-    //     WHERE id = $1
-    // `,
 
-    // Outras queries podem ser adicionadas aqui
+    GET_USER_ALL: `SELECT * FROM users`,
+
 };
 
 export function CreateValues(user: UserEntity): any[] {

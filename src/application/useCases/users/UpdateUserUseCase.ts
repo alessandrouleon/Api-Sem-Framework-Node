@@ -3,11 +3,12 @@ import { Email } from '../../../domain/entities/users/valueObjects/Email';
 import { Password } from '../../../domain/entities/users/valueObjects/Password';
 import { IUserRepository } from '../../../domain/repositories/IUserRepository';
 import AppError from '../../../infrastructure/errors/AppError';
+import { UpdateUserDTO } from '../../dtos/users/UpdateUserDTO';
 
 export class UpdateUserUseCase {
     constructor(private userRepository: IUserRepository) { }
 
-    async execute(id: string, data: UserEntity): Promise<UserEntity> {
+    async execute(id: string, data: UpdateUserDTO): Promise<UserEntity> {
 
         const userId = await this.userRepository.findById(id);
 
