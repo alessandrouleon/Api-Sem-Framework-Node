@@ -8,7 +8,8 @@
          "domain": "core",
          "script": "Scripts",
          "infrastructure": "App",
-         "valueObjects": "Less"
+         "valueObjects": "Less",
+         "application": "Api"
     },
 }
 

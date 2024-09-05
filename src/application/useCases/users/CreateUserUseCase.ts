@@ -4,9 +4,13 @@ import { Password } from '../../../domain/entities/users/valueObjects/Password';
 import { IUserRepository } from '../../../domain/repositories/IUserRepository';
 import AppError from '../../../infrastructure/errors/AppError';
 import { CreateUserDTO } from '../../dtos/users/CreateUserDTO';
+import { EncryptionService } from '../../services/EncryptionService';
 
 export class CreateUserUseCase {
-    constructor(private userRepository: IUserRepository) { }
+    constructor(
+        private userRepository: IUserRepository,
+        private encryptionService: EncryptionService
+    ) { }
 
     async execute(data: CreateUserDTO): Promise<UserEntity> {
 
@@ -34,6 +38,9 @@ export class CreateUserUseCase {
             password: userPassword.getValue()
         });
 
-        return await this.userRepository.create(user);
+        //Criptografar senha
+        const hashPassword = await this.encryptionService.hashPassword(user.password)
+
+        return await this.userRepository.create({ ...user, password: hashPassword });
     }
 }

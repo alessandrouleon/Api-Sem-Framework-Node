@@ -1,5 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { UserRepository } from '../../../application/repositories/UserRepository';
+import { BcryptEncryptionService } from '../../../application/services/EncryptionService';
 import { CreateUserUseCase } from '../../../application/useCases/users/CreateUserUseCase';
 import { DeleteUserUseCase } from '../../../application/useCases/users/DeleteUserUseCase';
 import { GetUserUseCase } from '../../../application/useCases/users/GetUserUseCase';
@@ -8,7 +9,8 @@ import { CustomRouter } from '../../../utils/customRouter';
 import { UserController } from '../controllers/UserController';
 
 const userRepository = new UserRepository();
-const createUserUseCase = new CreateUserUseCase(userRepository);
+const encryptionService = new BcryptEncryptionService();
+const createUserUseCase = new CreateUserUseCase(userRepository, encryptionService);
 const updateUserUseCase = new UpdateUserUseCase(userRepository);
 const deleteUserUseCase = new DeleteUserUseCase(userRepository)
 const getUserUseCase = new GetUserUseCase(userRepository)
@@ -17,21 +19,6 @@ const userController = new UserController(createUserUseCase, updateUserUseCase, 
 
 const userRouter = new CustomRouter();
 const userRouterS = new CustomRouter();
-
-// userRouter.use('/', async (req: IncomingMessage, res: ServerResponse) => {
-//     switch (req.method) {
-//         case 'POST':
-//             await userController.createUser(req, res);
-//             break;
-//         case 'PATCH':
-//             await userController.updateUser(req, res);
-//             break;
-//         default:
-//             res.writeHead(405, { 'Content-Type': 'application/json' });
-//             res.end(JSON.stringify({ error: 'Method not allowed' }));
-//             break;
-//     }
-// });
 
 userRouter.use('/', async (req: IncomingMessage, res: ServerResponse) => {
     const urlParts = req.url?.split('/') || [];
