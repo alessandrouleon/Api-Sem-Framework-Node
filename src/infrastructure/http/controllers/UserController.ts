@@ -3,6 +3,7 @@ import { CreateUserUseCase } from '../../../application/useCases/users/CreateUse
 import { DeleteUserUseCase } from '../../../application/useCases/users/DeleteUserUseCase';
 import { GetUserUseCase } from '../../../application/useCases/users/GetUserUseCase';
 import { UpdateUserUseCase } from '../../../application/useCases/users/UpdateUserUseCase';
+import { UserValidator } from '../../../application/validators/UserValidator';
 import { parseRequestBody, sendJsonResponse } from '../../../utils/httpHelpers';
 
 export class UserController {
@@ -16,6 +17,10 @@ export class UserController {
     public async createUser(req: IncomingMessage, res: ServerResponse): Promise<void> {
         try {
             const users = await parseRequestBody(req);
+
+            // Chama a validação antes de passar para o use case
+            UserValidator.validateCreateUser(users);
+
             const result = await this.createUserUseCase.execute(users);
 
             sendJsonResponse(res, 201, { users: result });
@@ -28,6 +33,9 @@ export class UserController {
     public async updateUser(req: IncomingMessage, res: ServerResponse, userId: string): Promise<void> {
         try {
             const users = await parseRequestBody(req);
+
+            // Chama a validação antes de passar para o use case
+            UserValidator.validateUpdateUser(users);
             const result = await this.updateUserUseCase.execute(userId, users);
             sendJsonResponse(res, 200, { users: result });
         } catch (error: any) {

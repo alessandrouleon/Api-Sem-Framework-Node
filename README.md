@@ -12,9 +12,13 @@ src/
 │   │   └── 📄 CreateUserDTO.ts
 │   ├── 📁 repositories/
 │   │   └── 📄 UserRepository.ts
+│   ├── 📁 services/
+│   │   └── 📄 EncryptionService.ts
 │   ├── 📁 use-cases/
 │   │   └── 📄 CreateUserUseCase.ts
-│
+|   ├── 📁 validators/
+│   │   └── 📄 UserValidator.ts
+|
 ├── 📁 domain/
 │   ├── 📁 entities/
 │   │   └── 📄 UserEntity.ts

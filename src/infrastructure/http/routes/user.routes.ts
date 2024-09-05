@@ -47,10 +47,4 @@ userRouter.use('/', async (req: IncomingMessage, res: ServerResponse) => {
     }
 });
 
-
-
-
-
-
-
 export default userRouter || userRouterS;
