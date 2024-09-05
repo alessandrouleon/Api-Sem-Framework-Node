@@ -1,4 +1,6 @@
 import { UserEntity } from '../../../domain/entities/users/UserEntity';
+import { Email } from '../../../domain/entities/users/valueObjects/Email';
+import { Password } from '../../../domain/entities/users/valueObjects/Password';
 import { IUserRepository } from '../../../domain/repositories/IUserRepository';
 import AppError from '../../../infrastructure/errors/AppError';
 import { CreateUserDTO } from '../../dtos/users/CreateUserDTO';
@@ -21,7 +23,16 @@ export class CreateUserUseCase {
             throw new AppError('Email já cadastrado', 400);
         }
 
-        const user = UserEntity.createUser({ ...data });
+        // Cria os Instanci e Email e Password Value Objects
+        const userEmail = new Email(data.email);
+        const userPassword = new Password(data.password);
+
+
+        const user = UserEntity.createUser({
+            ...data,
+            email: userEmail.getValue(),
+            password: userPassword.getValue()
+        });
 
         return await this.userRepository.create(user);
     }

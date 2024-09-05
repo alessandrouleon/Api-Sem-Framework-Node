@@ -5,7 +5,7 @@ export const UserQueries = {
     INSERT_USER: `
         INSERT INTO users (id, name, username, email, password) 
         VALUES ($1, $2, $3, $4, $5) 
-        RETURNING id, name, username, email, password, created_at, updated_at, deleted_at
+        RETURNING *;
     `,
 
     //OK
@@ -13,7 +13,7 @@ export const UserQueries = {
         UPDATE users 
         SET name = $2, username = $3, email = $4, password = $5, updated_at = $6
         WHERE id = $1 
-        RETURNING id, name, username, email, password, created_at, updated_at, deleted_at
+        RETURNING *;
     `,
 
     //OK
@@ -41,9 +41,14 @@ export const UserQueries = {
     // Outras queries podem ser adicionadas aqui
 };
 
-
-export const CreateValues = (user: UserEntity) => {
-    return [user.id, user.name, user.username, user.email, user.password];
+export function CreateValues(user: UserEntity): any[] {
+    return [
+        user.id,
+        user.name,
+        user.username,
+        user.email,
+        user.password,
+    ];
 }
 
 export const UpdateValues = (id: string, user: UserEntity) => {

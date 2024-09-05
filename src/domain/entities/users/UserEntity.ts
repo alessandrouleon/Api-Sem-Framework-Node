@@ -1,4 +1,5 @@
 import { randomUUID } from 'crypto';
+
 export class UserEntity {
     id: string;
     name: string;
@@ -26,12 +27,4 @@ export class UserEntity {
             deleted_at: null,
         });
     }
-
-    // static updateUser(props: Omit<UserEntity, 'id' | 'updated_at'>, id?: string, updated_at?: Date) {
-    //     Object.assign(this, props);
-    //     updated_at = new Date();
-    // }
-
-
-
 }

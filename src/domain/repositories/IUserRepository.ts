@@ -1,8 +1,7 @@
-import { CreateUserDTO } from "../../application/dtos/users/CreateUserDTO";
 import { UserEntity } from "../entities/users/UserEntity";
 
 export interface IUserRepository {
-    create(user: CreateUserDTO): Promise<UserEntity>;
+    create(user: UserEntity): Promise<UserEntity>;
     update(id: string, data: UserEntity): Promise<UserEntity>;
     findByUsername(username: string): Promise<UserEntity | null>;
     findByEmail(email: string): Promise<UserEntity | null>;
