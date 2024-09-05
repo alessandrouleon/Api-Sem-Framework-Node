@@ -1,6 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { UserRepository } from '../../../application/repositories/UserRepository';
 import { CreateUserUseCase } from '../../../application/useCases/users/CreateUserUseCase';
+import { DeleteUserUseCase } from '../../../application/useCases/users/DeleteUserUseCase';
 import { GetUserUseCase } from '../../../application/useCases/users/GetUserUseCase';
 import { UpdateUserUseCase } from '../../../application/useCases/users/UpdateUserUseCase';
 import { CustomRouter } from '../../../utils/customRouter';
@@ -9,8 +10,9 @@ import { UserController } from '../controllers/UserController';
 const userRepository = new UserRepository();
 const createUserUseCase = new CreateUserUseCase(userRepository);
 const updateUserUseCase = new UpdateUserUseCase(userRepository);
+const deleteUserUseCase = new DeleteUserUseCase(userRepository)
 const getUserUseCase = new GetUserUseCase(userRepository)
-const userController = new UserController(createUserUseCase, updateUserUseCase, getUserUseCase);
+const userController = new UserController(createUserUseCase, updateUserUseCase, deleteUserUseCase, getUserUseCase);
 
 
 const userRouter = new CustomRouter();
@@ -42,6 +44,10 @@ userRouter.use('/', async (req: IncomingMessage, res: ServerResponse) => {
 
         if (req.method === 'PATCH' && userId) {
             await userController.updateUser(req, res, userId);
+        }
+
+        if (req.method === 'DELETE' && userId) {
+            await userController.deleteUser(req, res, userId);
         }
 
         if (req.method === 'GET') {

@@ -2,7 +2,7 @@ import { Pool } from 'pg';
 import { UserEntity } from '../../domain/entities/users/UserEntity';
 import { IUserRepository } from '../../domain/repositories/IUserRepository';
 import { PostgresConnection } from '../../infrastructure/database/PostgresConnection';
-import { CreateValues, UpdateValues, UserQueries } from '../../infrastructure/database/queries/UserQuerys';
+import { CreateValues, DeleteValues, UpdateValues, UserQueries } from '../../infrastructure/database/queries/UserQuerys';
 
 
 export class UserRepository implements IUserRepository {
@@ -21,6 +21,12 @@ export class UserRepository implements IUserRepository {
     public async update(id: string, data: UserEntity): Promise<UserEntity> {
         const values = UpdateValues(id, data);
         const result = (await this.db.query(UserQueries.UPDATE_USER, values)).rows[0];
+        return result || null;
+    }
+
+    public async delete(id: string, data: UserEntity): Promise<UserEntity> {
+        const values = DeleteValues(id, data);
+        const result = (await this.db.query(UserQueries.DELETE_USER, values)).rows[0];
         return result || null;
     }
 
