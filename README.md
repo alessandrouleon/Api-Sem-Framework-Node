@@ -5,39 +5,53 @@ Este projeto segue os princípios de Clean Architecture e SOLID, utilizando Node
 ## Estrutura de Pastas
 
 ```plaintext
-src/
+📁src/
 │
 ├── 📁 application/
 │   ├── 📁 dtos/
-│   │   └── 📄 CreateUserDTO.ts
+|   |   ├── 📁 users/
+│   │   |   └── 📄 CreateUserDTO.ts
+|   |   |   └── 📄 UpdateUserDTO.ts
 │   ├── 📁 repositories/
 │   │   └── 📄 UserRepository.ts
 │   ├── 📁 services/
 │   │   └── 📄 EncryptionService.ts
-│   ├── 📁 use-cases/
-│   │   └── 📄 CreateUserUseCase.ts
+│   ├── 📁 useCases/
+│   |   ├── 📁 users/
+│   │   |   └── 📄 CreateUserUseCase.ts
+│   │   |   └── 📄 DeleteUserUseCase.ts
+│   │   |   └── 📄 GetUserUseCase.ts
+│   │   |   └── 📄 UpdateUserUseCase.ts
 |   ├── 📁 validators/
 │   │   └── 📄 UserValidator.ts
 |
 ├── 📁 domain/
 │   ├── 📁 entities/
-│   │   └── 📄 UserEntity.ts
+│   |   ├── 📁 users/
+│   |   |   ├── 📁 valueObjects
+|   |   |   |   └── 📄 Email.ts
+|   |   |   |   └── 📄 Password.ts
+│   │   |   └── 📄 UserEntity.ts
 │   ├── 📁 repositories/
 │   │   └── 📄 IUserRepository.ts
 │
 ├── 📁 infraestrutura/
 │   ├── 📁 database/
+│   │   ├── 📁 queries/
+│   │   │   └── 📄 UserQueries.ts
 │   │   ├── 📁 scripts/
 │   │   │   └── 📄 create_table.sql
-|       └── 📄 PostgresConnection.ts
+|   |   └── 📄 PostgresConnection.ts
 │   ├── 📁 errors/
 │   │   └── 📄 AppError.ts
 │   ├── 📁 http/
 │   │   ├── 📁 controllers/
-│   │   │   └── 📄 userController.ts
+│   │   │   └── 📄 UserController.ts
 │   │   ├── 📁 routes/
 │   │   │   └── 📄 user.routes.ts
 │   │   └── 📄 index.ts
 │   └── 📄 server.ts
-│
-└── 📁 utils/
+|
+├── ├── 📁 utils/
+│   |   └── 📄 customRouter.ts
+|   |   └── 📄 httpHelpers.ts
